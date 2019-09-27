@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "847053086025",
+    "firebase_url": "https://trinity-897ef.firebaseio.com",
+    "project_id": "trinity-897ef",
+    "storage_bucket": "trinity-897ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847053086025:android:e89197cfa63dfae9c7ce98",
+        "android_client_info": {
+          "package_name": "me.nizarmah.trinity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847053086025-l75edsbri9qedpv8s7gou5m0ra4rm0e5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5M1mTVWZUS0TL_WP45oFlLucxRVG0Y28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847053086025-l75edsbri9qedpv8s7gou5m0ra4rm0e5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
