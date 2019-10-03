@@ -5,7 +5,6 @@ import android.view.*
 import androidx.camera.core.CameraX
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import kotlinx.android.synthetic.main.fragment_facedetection.*
 import me.nizarmah.trinity.R
 
@@ -46,11 +45,5 @@ class FaceDetectionFragment : Fragment(), LifecycleOwner {
             isPinchToZoomEnabled = true
             touchscreenBlocksFocus = false
         }
-    }
-
-    private fun setupFaceDetection() {
-        val detectorOptions = FirebaseVisionFaceDetectorOptions.Builder()
-            .enableTracking()
-            .build()
     }
 }
