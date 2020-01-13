@@ -1,4 +1,4 @@
-package me.nizarmah.trinity.utils.facedetection.processor
+package me.nizarmah.trinity.utils.face.detector
 
 import android.media.Image
 import android.util.Log

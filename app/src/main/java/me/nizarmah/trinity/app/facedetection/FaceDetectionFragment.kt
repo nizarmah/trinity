@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import me.nizarmah.trinity.R
-import me.nizarmah.trinity.utils.facedetection.highlighter.FaceDetectionHighlighter
+import me.nizarmah.trinity.utils.face.highlighter.FaceHighlighter
 import me.nizarmah.trinity.utils.camera.view.CameraViewFactory
 import me.nizarmah.trinity.utils.camera.view.configs.FaceDetectionCameraViewConfig
 
@@ -22,7 +22,7 @@ class FaceDetectionFragment : Fragment(), LifecycleOwner {
     private lateinit var cameraView: CameraView
     private val cameraViewConfig = FaceDetectionCameraViewConfig
 
-    private lateinit var highlighterFaces: FaceDetectionHighlighter
+    private lateinit var highlighterFaces: FaceHighlighter
 
     override fun onCreateView(
         inflater: LayoutInflater,
