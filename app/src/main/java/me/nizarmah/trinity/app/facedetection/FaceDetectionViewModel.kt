@@ -1,6 +1,5 @@
 package me.nizarmah.trinity.app.facedetection
 
-import android.media.Image
 import androidx.camera.core.ImageAnalysis
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,20 +8,20 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFace
 import me.nizarmah.trinity.utils.camera.analysis.CameraAnalysisFactory
 import me.nizarmah.trinity.utils.camera.analysis.CameraFrameAnalyzerLambdaType
 import me.nizarmah.trinity.utils.camera.analysis.configs.LowResFaceDetectionCameraAnalysisConfig
-import me.nizarmah.trinity.utils.facedetection.highlighter.highlight.FaceDetectionHighlight
-import me.nizarmah.trinity.utils.facedetection.highlighter.highlight.RectangularFaceDetectionHighlight
-import me.nizarmah.trinity.utils.facedetection.processor.FaceDetectionProcessor
+import me.nizarmah.trinity.utils.face.highlighter.highlight.FaceHighlight
+import me.nizarmah.trinity.utils.face.highlighter.highlight.RectangularFaceHighlight
+import me.nizarmah.trinity.utils.face.detector.FaceDetector
 
 class FaceDetectionViewModel : ViewModel() {
 
-    private lateinit var faceDetectionProcessor: FaceDetectionProcessor
+    private lateinit var faceDetector: FaceDetector
 
-    val highlightedFacesLiveData = MutableLiveData<List<FaceDetectionHighlight>>()
+    val highlightedFacesLiveData = MutableLiveData<List<FaceHighlight>>()
     private val highlightDetectedFaces: (List<FirebaseVisionFace>) -> Unit = { faces ->
-        val highlightedFacesList = ArrayList<FaceDetectionHighlight>()
+        val highlightedFacesList = ArrayList<FaceHighlight>()
 
         faces.forEach {
-            highlightedFacesList.add(RectangularFaceDetectionHighlight(it))
+            highlightedFacesList.add(RectangularFaceHighlight(it))
         }
 
         highlightedFacesLiveData.postValue(highlightedFacesList)
@@ -43,18 +42,18 @@ class FaceDetectionViewModel : ViewModel() {
         }
 
         mediaImage?.let {
-            faceDetectionProcessor.processImage(mediaImage, imageRotation, highlightDetectedFaces)
+            faceDetector.processImage(mediaImage, imageRotation, highlightDetectedFaces)
         }
     }
 
     fun initViewModel() {
-        initFaceDetectorProcessor()
+        initFaceDetector()
 
         initCameraFrameAnalysis()
     }
 
-    private fun initFaceDetectorProcessor() {
-        faceDetectionProcessor = FaceDetectionProcessor()
+    private fun initFaceDetector() {
+        faceDetector = FaceDetector()
     }
 
     private fun initCameraFrameAnalysis() {
@@ -67,6 +66,6 @@ class FaceDetectionViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
 
-        faceDetectionProcessor.stop()
+        faceDetector.stop()
     }
 }

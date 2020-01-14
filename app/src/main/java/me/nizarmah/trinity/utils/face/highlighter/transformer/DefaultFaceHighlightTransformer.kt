@@ -1,6 +1,6 @@
-package me.nizarmah.trinity.utils.facedetection.highlighter.transformer
+package me.nizarmah.trinity.utils.face.highlighter.transformer
 
-object DefaultFaceDetectionHighlightTransformer : FaceDetectionHighlightTransformer {
+object DefaultFaceHighlightTransformer : FaceHighlightTransformer {
     override val widthScaleFactor: Float = 1.0f
     override val heightScaleFactor: Float = 1.0f
 
