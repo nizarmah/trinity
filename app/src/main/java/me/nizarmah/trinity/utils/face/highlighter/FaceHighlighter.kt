@@ -1,20 +1,19 @@
-package me.nizarmah.trinity.utils.facedetection.highlighter
+package me.nizarmah.trinity.utils.face.highlighter
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.Log
 import android.util.Size
 import android.view.View
 import androidx.camera.view.CameraView
 import me.nizarmah.trinity.utils.camera.analysis.CameraAnalysisConfig
 import me.nizarmah.trinity.utils.camera.view.CameraViewConfig
-import me.nizarmah.trinity.utils.facedetection.highlighter.highlight.FaceDetectionHighlight
-import me.nizarmah.trinity.utils.facedetection.highlighter.transformer.DefaultFaceDetectionHighlightTransformer
-import me.nizarmah.trinity.utils.facedetection.highlighter.transformer.FaceDetectionHighlightTransformer
+import me.nizarmah.trinity.utils.face.highlighter.highlight.FaceHighlight
+import me.nizarmah.trinity.utils.face.highlighter.transformer.DefaultFaceHighlightTransformer
+import me.nizarmah.trinity.utils.face.highlighter.transformer.FaceHighlightTransformer
 import kotlin.math.round
 
-class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class FaceHighlighter(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val lock: Object = Object()
 
     private var cameraFrameResolution: Size = Size(1, 1)
@@ -22,10 +21,10 @@ class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(con
     private var cameraViewSize: Size = Size(0, 0)
     private var cameraViewResolution: Size = Size(1, 1)
 
-    public var transformer: FaceDetectionHighlightTransformer =
-        DefaultFaceDetectionHighlightTransformer
+    public var transformer: FaceHighlightTransformer =
+        DefaultFaceHighlightTransformer
 
-    private var highlights: ArrayList<FaceDetectionHighlight> = ArrayList()
+    private var highlights: ArrayList<FaceHighlight> = ArrayList()
 
     fun attachCameraView(cameraView: CameraView, cameraViewConfig: CameraViewConfig) {
         synchronized(lock) {
@@ -59,7 +58,7 @@ class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(con
 
     fun updateTransformer() {
         synchronized(lock) {
-            transformer = object : FaceDetectionHighlightTransformer {
+            transformer = object : FaceHighlightTransformer {
                 override val widthScaleFactor: Float =
                     (cameraViewResolution.width / cameraFrameResolution.width.toFloat())
                 override val heightScaleFactor: Float =
@@ -87,7 +86,7 @@ class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(con
         postInvalidate()
     }
 
-    fun add(highlight: FaceDetectionHighlight) {
+    fun add(highlight: FaceHighlight) {
         synchronized(lock) {
             highlight.transform(transformer)
             highlights.add(highlight)
@@ -96,7 +95,7 @@ class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(con
         postInvalidate()
     }
 
-    fun remove(highlight: FaceDetectionHighlight) {
+    fun remove(highlight: FaceHighlight) {
         synchronized(lock) {
             highlights.remove(highlight)
         }
@@ -110,7 +109,7 @@ class FaceDetectionHighlighter(context: Context, attrs: AttributeSet) : View(con
         synchronized(lock) {
             canvas?.apply {
                 highlights.forEach {
-                    it.highlightOn(this, this@FaceDetectionHighlighter)
+                    it.highlightOn(this, this@FaceHighlighter)
                 }
             }
         }

@@ -1,16 +1,16 @@
-package me.nizarmah.trinity.utils.facedetection.highlighter.highlight
+package me.nizarmah.trinity.utils.face.highlighter.highlight
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.firebase.ml.vision.face.FirebaseVisionFace
-import me.nizarmah.trinity.utils.facedetection.highlighter.FaceDetectionHighlighter
-import me.nizarmah.trinity.utils.facedetection.highlighter.transformer.FaceDetectionHighlightTransformer
+import me.nizarmah.trinity.utils.face.highlighter.FaceHighlighter
+import me.nizarmah.trinity.utils.face.highlighter.transformer.FaceHighlightTransformer
 import kotlin.math.abs
 import kotlin.math.ceil
 
-class RectangularFaceDetectionHighlight(val face: FirebaseVisionFace) :
-    FaceDetectionHighlight(face) {
+class RectangularFaceHighlight(val face: FirebaseVisionFace) :
+    FaceHighlight(face) {
     private val boxPaint = Paint().apply {
         color = Color.WHITE
         style = Paint.Style.STROKE
@@ -19,11 +19,11 @@ class RectangularFaceDetectionHighlight(val face: FirebaseVisionFace) :
 
     private var boxFace = face.boundingBox
 
-    override fun highlightOn(canvas: Canvas, highlighter: FaceDetectionHighlighter) {
+    override fun highlightOn(canvas: Canvas, highlighter: FaceHighlighter) {
         canvas.drawRect(boxFace, boxPaint)
     }
 
-    override fun transform(transformer: FaceDetectionHighlightTransformer) {
+    override fun transform(transformer: FaceHighlightTransformer) {
         val originalBoxWidth = abs(boxFace.left - boxFace.right)
         val originalBoxHeight = abs(boxFace.top - boxFace.bottom)
 

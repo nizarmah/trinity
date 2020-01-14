@@ -1,5 +1,7 @@
 package me.nizarmah.trinity.utils.camera.analysis
 
+import android.os.Handler
+import android.os.HandlerThread
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysisConfig
 import androidx.camera.core.ImageProxy
@@ -11,6 +13,10 @@ object CameraAnalysisFactory {
         val imageAnalysisConfig = ImageAnalysisConfig.Builder().apply {
             setTargetResolution(cameraAnalysisConfig.resolution)
             setImageReaderMode(cameraAnalysisConfig.readerMode)
+
+            val analyzerThread =
+                HandlerThread(cameraAnalysisConfig::class.java.simpleName).apply { start() }
+            setCallbackHandler(Handler(analyzerThread.looper))
         }.build()
 
         return imageAnalysisConfig

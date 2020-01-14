@@ -1,4 +1,4 @@
-package me.nizarmah.trinity.utils.facedetection.processor
+package me.nizarmah.trinity.utils.face.detector
 
 import android.media.Image
 import android.util.Log
@@ -12,7 +12,7 @@ import java.lang.Exception
 
 typealias onDetectLambdaType = (List<FirebaseVisionFace>) -> Unit
 
-abstract class FaceDetectionProcessorBase() {
+abstract class FaceDetectorBase() {
     abstract val TAG: String
 
     abstract val detector: FirebaseVisionFaceDetector
