@@ -1,11 +1,11 @@
 package me.nizarmah.trinity.utils.face.highlighter.highlight
 
 import android.graphics.Canvas
-import com.google.firebase.ml.vision.face.FirebaseVisionFace
 import me.nizarmah.trinity.utils.face.highlighter.FaceHighlighter
 import me.nizarmah.trinity.utils.face.highlighter.transformer.FaceHighlightTransformer
+import me.nizarmah.trinity.utils.facedetection.face.Face
 
-abstract class FaceHighlight(face: FirebaseVisionFace) {
+abstract class FaceHighlight(face: Face) {
     abstract fun highlightOn(canvas: Canvas, highlighter: FaceHighlighter)
 
     abstract fun transform(transformer: FaceHighlightTransformer)

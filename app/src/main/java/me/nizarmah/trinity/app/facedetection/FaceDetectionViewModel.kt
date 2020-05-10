@@ -4,24 +4,25 @@ import androidx.camera.core.ImageAnalysis
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
-import com.google.firebase.ml.vision.face.FirebaseVisionFace
 import me.nizarmah.trinity.utils.camera.analysis.CameraAnalysisFactory
 import me.nizarmah.trinity.utils.camera.analysis.CameraFrameAnalyzerLambdaType
 import me.nizarmah.trinity.utils.camera.analysis.configs.LowResFaceDetectionCameraAnalysisConfig
 import me.nizarmah.trinity.utils.face.highlighter.highlight.FaceHighlight
 import me.nizarmah.trinity.utils.face.highlighter.highlight.RectangularFaceHighlight
 import me.nizarmah.trinity.utils.face.detector.FaceDetector
+import me.nizarmah.trinity.utils.face.detector.onDetectLambdaType
+import me.nizarmah.trinity.utils.facedetection.face.Face
 
 class FaceDetectionViewModel : ViewModel() {
 
     private lateinit var faceDetector: FaceDetector
 
     val highlightedFacesLiveData = MutableLiveData<List<FaceHighlight>>()
-    private val highlightDetectedFaces: (List<FirebaseVisionFace>) -> Unit = { faces ->
+    private val highlightDetectedFaces: onDetectLambdaType = { faces, frame ->
         val highlightedFacesList = ArrayList<FaceHighlight>()
 
         faces.forEach {
-            highlightedFacesList.add(RectangularFaceHighlight(it))
+            highlightedFacesList.add(RectangularFaceHighlight(Face(it, frame)))
         }
 
         highlightedFacesLiveData.postValue(highlightedFacesList)

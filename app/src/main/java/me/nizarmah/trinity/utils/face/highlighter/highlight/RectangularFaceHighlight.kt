@@ -3,13 +3,13 @@ package me.nizarmah.trinity.utils.face.highlighter.highlight
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import com.google.firebase.ml.vision.face.FirebaseVisionFace
 import me.nizarmah.trinity.utils.face.highlighter.FaceHighlighter
 import me.nizarmah.trinity.utils.face.highlighter.transformer.FaceHighlightTransformer
+import me.nizarmah.trinity.utils.facedetection.face.Face
 import kotlin.math.abs
 import kotlin.math.ceil
 
-class RectangularFaceHighlight(val face: FirebaseVisionFace) :
+class RectangularFaceHighlight(val face: Face) :
     FaceHighlight(face) {
     private val boxPaint = Paint().apply {
         color = Color.WHITE
