@@ -1,0 +1,4 @@
+[submodule "app/src/main/assets/oracle"]
+	path = app/src/main/assets/oracle
+	url = git@github.com:nizarmah/oracle.git
+	branch = tflite

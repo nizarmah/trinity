@@ -1,27 +1,46 @@
 package me.nizarmah.trinity.app.facedetection
 
+import android.content.Context
 import androidx.camera.core.ImageAnalysis
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
-import com.google.firebase.ml.vision.face.FirebaseVisionFace
+import kotlinx.coroutines.launch
 import me.nizarmah.trinity.utils.camera.analysis.CameraAnalysisFactory
 import me.nizarmah.trinity.utils.camera.analysis.CameraFrameAnalyzerLambdaType
 import me.nizarmah.trinity.utils.camera.analysis.configs.LowResFaceDetectionCameraAnalysisConfig
+import me.nizarmah.trinity.utils.face.classifier.FaceClassifier
+import me.nizarmah.trinity.utils.face.classifier.configs.OracleFaceClassifierConfig
 import me.nizarmah.trinity.utils.face.highlighter.highlight.FaceHighlight
-import me.nizarmah.trinity.utils.face.highlighter.highlight.RectangularFaceHighlight
 import me.nizarmah.trinity.utils.face.detector.FaceDetector
+import me.nizarmah.trinity.utils.face.detector.onDetectLambdaType
+import me.nizarmah.trinity.utils.face.highlighter.highlight.LabeledRectangularFaceHighlight
+import me.nizarmah.trinity.utils.facedetection.face.Face
 
 class FaceDetectionViewModel : ViewModel() {
 
     private lateinit var faceDetector: FaceDetector
+    private lateinit var faceClassifier: FaceClassifier
 
+    val highlightedFacesHashMap = HashMap<Int, Face>()
     val highlightedFacesLiveData = MutableLiveData<List<FaceHighlight>>()
-    private val highlightDetectedFaces: (List<FirebaseVisionFace>) -> Unit = { faces ->
-        val highlightedFacesList = ArrayList<FaceHighlight>()
-
+    private val highlightDetectedFaces: onDetectLambdaType = { faces, frame ->
         faces.forEach {
-            highlightedFacesList.add(RectangularFaceHighlight(it))
+            if (highlightedFacesHashMap.containsKey(it.trackingId)) {
+                highlightedFacesHashMap[it.trackingId]?.updateFace(it, frame)
+            } else {
+                val face = Face(it, frame)
+                highlightedFacesHashMap.put(it.trackingId, face)
+                viewModelScope.launch {
+                    highlightedFacesHashMap[it.trackingId]?.apply { face.classifyFace(faceClassifier) }
+                }
+            }
+        }
+
+        val highlightedFacesList = ArrayList<FaceHighlight>()
+        highlightedFacesHashMap.values.forEach {
+            highlightedFacesList.add(LabeledRectangularFaceHighlight(it))
         }
 
         highlightedFacesLiveData.postValue(highlightedFacesList)
@@ -46,14 +65,19 @@ class FaceDetectionViewModel : ViewModel() {
         }
     }
 
-    fun initViewModel() {
+    fun initViewModel(context: Context) {
         initFaceDetector()
+        initFaceClassifier(context)
 
         initCameraFrameAnalysis()
     }
 
     private fun initFaceDetector() {
         faceDetector = FaceDetector()
+    }
+
+    private fun initFaceClassifier(context: Context) {
+        faceClassifier = FaceClassifier.getInstance(context, OracleFaceClassifierConfig)
     }
 
     private fun initCameraFrameAnalysis() {

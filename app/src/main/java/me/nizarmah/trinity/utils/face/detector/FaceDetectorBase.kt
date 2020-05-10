@@ -1,5 +1,6 @@
 package me.nizarmah.trinity.utils.face.detector
 
+import android.graphics.Bitmap
 import android.media.Image
 import android.util.Log
 import com.google.android.gms.tasks.Task
@@ -10,7 +11,7 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import java.io.IOException
 import java.lang.Exception
 
-typealias onDetectLambdaType = (List<FirebaseVisionFace>) -> Unit
+typealias onDetectLambdaType = (faces: List<FirebaseVisionFace>, frame: Bitmap) -> Unit
 
 abstract class FaceDetectorBase() {
     abstract val TAG: String
@@ -29,7 +30,7 @@ abstract class FaceDetectorBase() {
     protected fun detectInVisionImage(image: FirebaseVisionImage, onDetect: onDetectLambdaType) {
         detectInImage(image)
             .addOnSuccessListener { faces ->
-                onDetect(faces)
+                onDetect(faces, image.bitmap)
             }
             .addOnFailureListener { exception ->
                 onFailure(exception)
