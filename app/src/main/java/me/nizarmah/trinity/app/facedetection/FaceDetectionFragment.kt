@@ -34,7 +34,7 @@ class FaceDetectionFragment : Fragment(), LifecycleOwner {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(viewModelInstance)
-        viewModel.initViewModel()
+        viewModel.initViewModel(view.context)
 
         initViews(view)
 
