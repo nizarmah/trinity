@@ -9,7 +9,7 @@ import me.nizarmah.trinity.utils.facedetection.face.Face
 import kotlin.math.abs
 import kotlin.math.ceil
 
-class RectangularFaceHighlight(val face: Face) :
+open class RectangularFaceHighlight(val face: Face) :
     FaceHighlight(face) {
     private val boxPaint = Paint().apply {
         color = Color.WHITE
@@ -17,7 +17,7 @@ class RectangularFaceHighlight(val face: Face) :
         strokeWidth = 4.0f
     }
 
-    private var boxFace = face.boundingBox
+    protected var boxFace = face.boundingBox
 
     override fun highlightOn(canvas: Canvas, highlighter: FaceHighlighter) {
         canvas.drawRect(boxFace, boxPaint)
