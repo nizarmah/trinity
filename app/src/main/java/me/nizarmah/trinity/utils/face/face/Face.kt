@@ -2,7 +2,12 @@ package me.nizarmah.trinity.utils.facedetection.face
 
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.util.Log
 import com.google.firebase.ml.vision.face.FirebaseVisionFace
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import me.nizarmah.trinity.utils.face.classifier.FaceClassifier
+import me.nizarmah.trinity.utils.face.classifier.onClassifyLambdaType
 
 class Face(visionFace: FirebaseVisionFace, var frame: Bitmap) {
     lateinit var boundingBox: Rect
@@ -40,5 +45,16 @@ class Face(visionFace: FirebaseVisionFace, var frame: Bitmap) {
     fun updateFace(visionFace: FirebaseVisionFace, frame: Bitmap) {
         this.frame = frame
         this.visionFace = visionFace
+    }
+
+    suspend fun classifyFace(
+        faceClassifier: FaceClassifier,
+        onClassify: onClassifyLambdaType = {}
+    ) {
+        faceClassifier.classify(this.getFaceBitmap(), {
+            this.label = it
+
+            onClassify(it)
+        })
     }
 }
