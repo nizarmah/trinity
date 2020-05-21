@@ -1,4 +1,4 @@
-package me.nizarmah.trinity.app.facedetection
+package me.nizarmah.trinity.app.facerecognition
 
 import android.os.Bundle
 import android.view.*
@@ -13,11 +13,11 @@ import me.nizarmah.trinity.utils.face.highlighter.FaceHighlighter
 import me.nizarmah.trinity.utils.camera.view.CameraViewFactory
 import me.nizarmah.trinity.utils.camera.view.configs.FaceDetectionCameraViewConfig
 
-class FaceDetectionFragment : Fragment(), LifecycleOwner {
+class FaceRecognitionFragment : Fragment(), LifecycleOwner {
 
-    private lateinit var viewModel: FaceDetectionViewModel
-    private val viewModelInstance: Class<FaceDetectionViewModel> =
-        FaceDetectionViewModel::class.java
+    private lateinit var viewModel: FaceRecognitionViewModel
+    private val viewModelInstance: Class<FaceRecognitionViewModel> =
+        FaceRecognitionViewModel::class.java
 
     private lateinit var cameraView: CameraView
     private val cameraViewConfig = FaceDetectionCameraViewConfig
@@ -61,7 +61,7 @@ class FaceDetectionFragment : Fragment(), LifecycleOwner {
 
     private fun setupCameraView() {
         cameraView.apply {
-            bindToLifecycle(this@FaceDetectionFragment)
+            bindToLifecycle(this@FaceRecognitionFragment)
 
             CameraViewFactory.applyConfig(cameraView, cameraViewConfig)
 

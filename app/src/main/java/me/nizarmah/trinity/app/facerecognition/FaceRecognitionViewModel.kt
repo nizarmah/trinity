@@ -1,4 +1,4 @@
-package me.nizarmah.trinity.app.facedetection
+package me.nizarmah.trinity.app.facerecognition
 
 import android.content.Context
 import androidx.camera.core.ImageAnalysis
@@ -18,7 +18,7 @@ import me.nizarmah.trinity.utils.face.detector.onDetectLambdaType
 import me.nizarmah.trinity.utils.face.highlighter.highlight.LabeledRectangularFaceHighlight
 import me.nizarmah.trinity.utils.facedetection.face.Face
 
-class FaceDetectionViewModel : ViewModel() {
+class FaceRecognitionViewModel : ViewModel() {
 
     private lateinit var faceDetector: FaceDetector
     private lateinit var faceClassifier: FaceClassifier
